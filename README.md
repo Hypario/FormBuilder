@@ -1,6 +1,7 @@
 # A simple Form Builder
 
 [![Build Status](https://travis-ci.org/Hypario/FormBuilder.svg?branch=master)](https://travis-ci.org/Hypario/FormBuilder)
+[![Coverage Status](https://coveralls.io/repos/github/Hypario/FormBuilder/badge.svg?branch=master)](https://coveralls.io/github/Hypario/FormBuilder?branch=master)
 
 This Form Builder is a simple project for people who wants to start a project really fast with a Form without using any Framework such as Laravel or Symfony.
 Forms support Bootstrap 4 and your own classes.

@@ -10,6 +10,5 @@ install:
 
 script:
   - ./vendor/bin/phpcs -s
-  - ./vendor/bin/phpcbf -s
   - ./vendor/bin/php-cs-fixer fix --diff --dry-run
   - ./vendor/bin/phpunit --colors --covegare-text
