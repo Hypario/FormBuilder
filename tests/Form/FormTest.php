@@ -14,6 +14,7 @@ class FormTest extends TestCase
 
         return implode('', $lines);
     }
+    
 
     private function assertSimilar(string $expected, string $actual)
     {
