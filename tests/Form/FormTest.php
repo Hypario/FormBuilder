@@ -9,7 +9,7 @@ class FormTest extends TestCase
 {
     private function trim(string $string)
     {
-        $lines = explode(PHP_EOL, $string);
+        $lines = preg_split('/\r\n|\r|\n/', $string);
         $lines = array_map('trim', $lines);
 
         return implode('', $lines);
