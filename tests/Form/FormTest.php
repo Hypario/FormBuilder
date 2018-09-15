@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class FormTest extends TestCase
 {
-
     private function trim(string $string)
     {
         $lines = explode(PHP_EOL, $string);
