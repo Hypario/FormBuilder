@@ -1,11 +1,15 @@
 {
     "name": "Hypario/FormBuilder",
+    "description": "A little Form Builder for fast project",
+    "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Hypario",
             "email": "fabienduterte@orange.fr"
         }
     ],
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Form\\": "Form",
