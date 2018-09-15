@@ -5,13 +5,8 @@ php:
   - 7.2
 
 install:
-<<<<<<< HEAD
   - composer selfupdate
   - composer install
-=======
-  -composer selfupdate
-  -composer install
->>>>>>> cd58406e24fb8ecd5f225a3d3933f4e29042d42b
 
 script:
   - ./vendor/bin/phpcs -s
