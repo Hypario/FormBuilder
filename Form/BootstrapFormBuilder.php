@@ -279,8 +279,6 @@ class BootstrapFormBuilder implements FormBuilderInterface
 
     /**
      * Vérifie si le formulaire a bien été crée, si non il est créée.
-     *
-     * @return void
      */
     private function isCreated(): void
     {
