@@ -4,14 +4,14 @@ namespace Form;
 
 class FormBuilder implements FormBuilderInterface
 {
-
     /**
      * @var array
      */
     private $data = [];
 
     /**
-     * Array of fields from the form
+     * Array of fields from the form.
+     *
      * @var string[]
      */
     private $fields = [];
@@ -22,21 +22,22 @@ class FormBuilder implements FormBuilderInterface
     private $surround = '';
 
     /**
-     * Define the classes for every input of the form
+     * Define the classes for every input of the form.
+     *
      * @var string
      */
     private $inputClass = '';
 
     /**
-     * Define every / or 1 Form
+     * Define every / or 1 Form.
+     *
      * @var array[]
      */
     private $form;
 
     private $formIndex = 0;
-	
-	private $created = False;
 
+    private $created = false;
 
     public function __construct(array $data = [])
     {
@@ -46,7 +47,7 @@ class FormBuilder implements FormBuilderInterface
     public function __toString()
     {
         $html = '';
-        if (!is_null($this->form)) {
+        if (null !== $this->form) {
             foreach ($this->form as $form) {
                 if (isset($form['title'])) {
                     $html .= $form['title'];
@@ -62,47 +63,53 @@ class FormBuilder implements FormBuilderInterface
                 $html .= $field;
             }
         }
+
         return $html;
     }
 
     /**
-     * Create the form
+     * Create the form.
+     *
      * @param array $attributes
+     *
      * @return FormBuilder
      */
     public function create(array $attributes = []): self
     {
-		$this->created = True;
-        $this->formIndex++;
+        $this->created = true;
+        ++$this->formIndex;
         $defaultAttributes = [
             'action' => '',
             'method' => 'POST'
         ];
         $attributes = array_merge($defaultAttributes, $attributes);
         $this->form[$this->formIndex]['form'] = "<form {$this->getAttributes($attributes)}>";
+
         return $this;
     }
 
     /**
-     * Create an input field with the name, label and attributes given
-     * @param string $name
+     * Create an input field with the name, label and attributes given.
+     *
+     * @param string      $name
      * @param null|string $label
-     * @param array|null $attributes
+     * @param array|null  $attributes
+     *
      * @return FormBuilder
      */
     public function input(string $name, ?string $label = '', ?array $attributes = []): self
     {
-		$this->isCreated();
+        $this->isCreated();
         $defaultAttributes = [
-            'name' => $name,
+            'name'  => $name,
             'value' => $this->getValue($name),
-            'id' => $name,
+            'id'    => $name,
             'class' => $this->inputClass
         ];
-        if (!is_null($attributes)) {
+        if (null !== $attributes) {
             $attributes = array_merge($defaultAttributes, $attributes);
         }
-        if ($label !== '') {
+        if ('' !== $label) {
             $this->form[$this->formIndex][$name] = $this->surround("
                     <label for=\"{$attributes['id']}\">{$label}</label>
                     <input type=\"text\" {$this->getAttributes($attributes)}>
@@ -112,29 +119,32 @@ class FormBuilder implements FormBuilderInterface
                 <input type=\"text\" {$this->getAttributes($attributes)}>
             ");
         }
+
         return $this;
     }
 
     /**
-     * Create a password field with the name, label and attributes given
-     * @param string $name
-     * @param string $label
+     * Create a password field with the name, label and attributes given.
+     *
+     * @param string     $name
+     * @param string     $label
      * @param array|null $attributes
+     *
      * @return FormBuilder
      */
     public function password(string $name = 'password', string $label = '', ?array $attributes = []): self
     {
-		$this->isCreated();
+        $this->isCreated();
         $defaultAttributes = [
-            'name' => $name,
+            'name'  => $name,
             'value' => $this->getValue($name),
-            'id' => $name,
+            'id'    => $name,
             'class' => $this->inputClass
         ];
-        if (!is_null($attributes)) {
+        if (null !== $attributes) {
             $attributes = array_merge($defaultAttributes, $attributes);
         }
-        if ($label !== '') {
+        if ('' !== $label) {
             $this->form[$this->formIndex][$name] = $this->surround("
                     <label for=\"{$attributes['id']}\">{$label}</label>
                     <input type=\"password\" {$this->getAttributes($attributes)}>
@@ -144,63 +154,78 @@ class FormBuilder implements FormBuilderInterface
                 <input type=\"password\" {$this->getAttributes($attributes)}>
             ");
         }
+
         return $this;
     }
 
     /**
-     * Create a button of the type, text and classes of your choice
-     * @param string $type
-     * @param string $text
+     * Create a button of the type, text and classes of your choice.
+     *
+     * @param string      $type
+     * @param string      $text
      * @param null|string $class
+     *
      * @return FormBuilder
      */
     public function button(string $type, string $text, ?string $class = ''): self
     {
-		$this->isCreated();
+        $this->isCreated();
         $attributes = [
-            'type' => $type,
+            'type'  => $type,
             'class' => $class
         ];
         $this->form[$this->formIndex][$type] = "<button {$this->getAttributes($attributes)}>{$text}</button>";
+
         return $this;
     }
 
     /**
-     * set the classes of the inputs
+     * set the classes of the inputs.
+     *
      * @param string $inputClass
+     *
      * @return FormBuilder
      */
     public function setInputClass(string $inputClass): self
     {
         $this->inputClass = $inputClass;
+
         return $this;
     }
 
     /**
-     * set the html surround of the inputs
+     * set the html surround of the inputs.
+     *
      * @param string $html
+     *
      * @return FormBuilder
      */
     public function setSurround(string $html): self
     {
         $this->surround = $html;
+
         return $this;
     }
 
     /**
-     * Create a title for the form that will be shown before the form
+     * Create a title for the form that will be shown before the form.
+     *
      * @param string $html
+     *
      * @return FormBuilder
      */
     public function title(string $html): self
     {
         $this->form[$this->formIndex]['title'] = $html;
+
         return $this;
     }
 
     /**
-     * return the value of the given name's field
+     * return the value of the given name's field.
+     *
      * @param string $key
+     *
      * @return null|string
      */
     protected function getValue(string $key): ?string
@@ -210,28 +235,32 @@ class FormBuilder implements FormBuilderInterface
 
     /**
      * Get the attributes given and return them into a string
-     * like src="http://www.example.com/" style="display: inline-block;"
+     * like src="http://www.example.com/" style="display: inline-block;".
+     *
      * @param array $attributes
+     *
      * @return string*
      */
     private function getAttributes(array $attributes): string
     {
         $htmlParts = [];
         foreach ($attributes as $key => $value) {
-            if ($value !== "" && $value !== null) {
+            if ('' !== $value && null !== $value) {
                 $htmlParts[] = "{$key}=\"{$value}\"";
             }
         }
+
         return implode(' ', $htmlParts);
     }
 
     /**
      * @param string $html
+     *
      * @return string
      */
     private function surround(string $html): ?string
     {
-        if ($this->surround !== '' && isset($this->surround)) {
+        if ('' !== $this->surround && isset($this->surround)) {
             $balise = explode('><', $this->surround);
             $balise = array_map(function ($balise) {
                 return trim($balise, '<>');
@@ -244,18 +273,19 @@ class FormBuilder implements FormBuilderInterface
                 $html = "<$balise[0]>$html<{$balise[1]}>";
             }
         }
+
         return $html;
     }
-	
-	/**
-	* Vérifie si le formulaire a bien été crée, si non il est créée
-	*
-	* @return void
-	*/
-	private function isCreated(): void{
-		if (!$this->created) {
-			$this->create();
-		}
-	}
 
+    /**
+     * Vérifie si le formulaire a bien été crée, si non il est créée.
+     *
+     * @return void
+     */
+    private function isCreated(): void
+    {
+        if (!$this->created) {
+            $this->create();
+        }
+    }
 }

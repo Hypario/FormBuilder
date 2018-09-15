@@ -1,38 +1,36 @@
 <?php
 
-
 namespace Test\Form;
-
 
 use Form\FormBuilder;
 use PHPUnit\Framework\TestCase;
 
-class FormBuilderTest extends TestCase
+class FormTest extends TestCase
 {
-
     private function trim(string $string)
     {
         $lines = explode(PHP_EOL, $string);
         $lines = array_map('trim', $lines);
+
         return implode('', $lines);
     }
 
     private function assertSimilar(string $expected, string $actual)
     {
-        $this->assertEquals($this->trim($expected), $this->trim($actual));
+        $this->assertSame($this->trim($expected), $this->trim($actual));
     }
 
     public function testCreate()
     {
         $form = new FormBuilder();
         $form->create();
-        $this->assertSimilar('<form method="POST"></form>', (string)$form);
+        $this->assertSimilar('<form method="POST"></form>', (string) $form);
 
         $form = (new FormBuilder())->create()->input('username');
         $this->assertSimilar('
             <form method="POST">
                 <input type="text" name="username" id="username">
-            </form>', (string)$form);
+            </form>', (string) $form);
     }
 
     public function testMultipleCreate()
@@ -48,7 +46,9 @@ class FormBuilderTest extends TestCase
             </form>
             <form action="register.php" method="POST">
                 <input type="text" name="registerUsername" id="registerUsername">
-            </form>', (string)$form);
+            </form>',
+            (string) $form
+        );
     }
 
     public function testInput()
@@ -58,7 +58,7 @@ class FormBuilderTest extends TestCase
 			<form method="POST">
 			  <input type="text" name="name" id="test">
 			</form>
-		', (string)$form);
+		', (string) $form);
     }
 
     public function testInputWithData()
@@ -68,7 +68,7 @@ class FormBuilderTest extends TestCase
 			<form method="POST">
 			  <input type="text" name="name" value="Jean" id="name">
 			</form>
-		', (string)$form);
+		', (string) $form);
 
         $form = (new FormBuilder(['name' => 'Jean', 'ville' => 'Paris']))->input('name')->input('ville');
         $this->assertSimilar('
@@ -76,7 +76,7 @@ class FormBuilderTest extends TestCase
 				<input type="text" name="name" value="Jean" id="name">
 				<input type="text" name="ville" value="Paris" id="ville">
 			</form>
-        ', (string)$form);
+        ', (string) $form);
     }
 
     public function testPassword()
@@ -87,14 +87,14 @@ class FormBuilderTest extends TestCase
 			<form method="POST">
 				<input type="password" name="password" id="password">
 			</form>
-		', (string)$form);
+		', (string) $form);
 
         $form = new FormBuilder(['password' => 'azeaze']);
         $form->password('password');
         $this->assertSimilar('
 			<form method="POST">
 				<input type="password" name="password" value="azeaze" id="password">
-			</form>', (string)$form);
+			</form>', (string) $form);
     }
 
     public function testButton()
@@ -103,7 +103,7 @@ class FormBuilderTest extends TestCase
         $this->assertSimilar('
 			<form method="POST">
 				<button type="submit">Envoyer</button>
-			</form>', (string)$form);
+			</form>', (string) $form);
     }
 
     public function testSurround()
@@ -116,7 +116,7 @@ class FormBuilderTest extends TestCase
             <div class="form-control">
                 <input type="text" name="username" id="username">
             </div>
-        </form>', (string)$form);
+        </form>', (string) $form);
 
         $form = (new FormBuilder())
             ->setSurround('<div class="form-control">')
@@ -126,8 +126,7 @@ class FormBuilderTest extends TestCase
 				<div class="form-control">
 					<input type="text" name="username" id="username">
 				</div>
-			</form>',(string)$form
-        );
+			</form>', (string) $form);
 
         $form = (new FormBuilder())
             ->setSurround('<p class="title">')
@@ -137,8 +136,7 @@ class FormBuilderTest extends TestCase
 				<p class="title">
 					<input type="text" name="username" id="username">
 				</p>
-			</form>',(string)$form
-        );
+			</form>', (string) $form);
     }
 
     public function testLabel()
@@ -149,41 +147,44 @@ class FormBuilderTest extends TestCase
 			<form method="POST">
 				<label for="username">Votre pseudo :</label>
 				<input type="text" name="username" id="username">
-			</form>', (string)$form
-        );
+			</form>', (string) $form);
     }
 
     public function testAttributes()
     {
         $form = (new FormBuilder())
-            ->input('username',
+            ->input(
+                'username',
                 '',
-                ['id' => 'username']);
+                ['id' => 'username']
+            );
         $this->assertSimilar('
 		<form method="POST">
 			<input type="text" name="username" id="username">
-		</form>', (string)$form);
+		</form>', (string) $form);
 
         $form = (new FormBuilder())
             ->input('username');
         $this->assertSimilar('
 		<form method="POST">
 			<input type="text" name="username" id="username">
-		</form>', (string)$form);
+		</form>', (string) $form);
 
         $form = (new FormBuilder())
-            ->input('username',
+            ->input(
+                'username',
                 '',
                 [
-                    'id' => 'test',
+                    'id'    => 'test',
                     'class' => 'form-input',
                     'value' => 'aze'
-                ]);
+                ]
+            );
         $this->assertSimilar('
 			<form method="POST">
 				<input type="text" name="username" value="aze" id="test" class="form-input">
 			</form>
-			',(string)$form);
+			', (string) $form);
     }
 
     public function testFormBuilderTitle()
@@ -194,15 +195,15 @@ class FormBuilderTest extends TestCase
 			<form method="POST">
 				<input type="text" name="username" id="username">
 			</form>
-			',(string)$form
-        );
+			', (string) $form);
 
         $form = (new FormBuilder())
             ->create()
             ->input('username', 'Votre pseudo :')
             ->password('password', 'Votre mot de passe :')
             ->title('<h1>Inscription</h1>');
-        $this->assertSimilar('
+        $this->assertSimilar(
+            '
                     <h1>Inscription</h1>
                     <form method="POST">
                         <label for="username">Votre pseudo :</label>
@@ -211,8 +212,7 @@ class FormBuilderTest extends TestCase
                         <input type="password" name="password" id="password">
                     </form>
                     ',
-            (string)$form
+            (string) $form
         );
     }
-
 }

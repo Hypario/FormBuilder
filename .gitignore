@@ -2,3 +2,4 @@
 vendor
 composer.lock
 *.iml
+.php_cs.cache

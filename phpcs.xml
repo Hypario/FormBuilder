@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ruleset name="Form Builder">
+    <description></description>
+
+    <arg name="colors"/>
+
+    <arg value="p"/>
+
+    <file>Form</file>
+    <file>tests</file>
+
+    <rule ref="PSR2"></rule>
+
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\r\n"/>
+        </properties>
+    </rule>
+</ruleset>
